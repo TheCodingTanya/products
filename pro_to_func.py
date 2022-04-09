@@ -1,21 +1,14 @@
 import os # operating system
 
-# 讀取檔案
 def read_file(filename):
     products = []
-    if os.path.isfile(filename): #檢查檔案在不在
-        print('yeah! 找到檔案了!')
-        with open(filename, 'r', encoding='utf-8') as f:
-            for line in f:
-                if '商品,價格' in line:
-                    continue # 繼續
-                name, price = line.strip().split(',')
-                products.append([name, price])
-        print(products)
-    else:
-        print('找不到檔案.....')
+    with open(filename, 'r', encoding='utf-8') as f:
+        for line in f:
+            if '商品,價格' in line:
+                continue # 繼續
+            name, price = line.strip().split(',')
+            products.append([name, price])
     return products
-
 
 # 讓使用者輸入
 def user_input(products):
@@ -23,9 +16,9 @@ def user_input(products):
         name = input('請輸入商品名稱: ')
         if name == 'q':
             break
-            price = input('請輸入商品價格 ')
-            price = int(price)
-            products.append([name, price])
+        price = input('請輸入商品價格 ')
+        price = int(price)
+        products.append([name, price])
     print(products)
     return products
 
@@ -42,8 +35,19 @@ def write_file(filename, products):
             f.write(p[0] + ',' + str(p[1]) + '\n')
  
 
+def main():
+    filename = 'prodcts.csv'
+    if os.path.isfile(filename): #檢查檔案在不在
+        print('yeah! 找到檔案了!')
+        products = read_file(filename)
+    else:
+        print('找不到檔案')
 
-products = read_file('prodcts.csv')
-products = user_input(products)
-print_products(products)
-write_file('prodcts.csv', products)
+    products = user_input(products)
+    print_products(products)
+    write_file('prodcts.csv', products)
+
+
+main()
+
+# refactor 重構
